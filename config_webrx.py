@@ -161,7 +161,7 @@ To use a HackRF, compile the HackRF host tools from its "stdout" branch:
 
 # ==== Misc settings ====
 
-shown_center_freq = center_freq #you can change this if you use an upconverter
+#shown_center_freq = center_freq #you can change this if you use an upconverter
 
 client_audio_buffer_size = 5
 #increasing client_audio_buffer_size will:
