@@ -816,7 +816,7 @@ function mkscale()
 	marker_hz=Math.ceil(range.start/spacing.smallbw)*spacing.smallbw;
 	text_h_pos=22+10+((is_firefox)?3:0);
 	var text_to_draw;
-	var ftext=function(f) {text_to_draw=format_frequency(spacing.params.format,f,spacing.params.pre_divide,spacing.params.decimals);}
+	var ftext=function(f) {text_to_draw=format_frequency(spacing.params.format,actual_frequencies_reversed() ? center_freq-(f-center_freq) : f,spacing.params.pre_divide,spacing.params.decimals);}
 	var last_large;
 	for(;;)
 	{
@@ -903,8 +903,16 @@ function canvas_get_freq_offset(relativeX)
 	return Math.round((bandwidth*rel)-(bandwidth/2));
 }
 
+function actual_frequencies_reversed()
+{
+	return true;
+}
+
 function canvas_get_frequency(relativeX)
 {
+	// Reverses the scale if true
+	reverse_scale=actual_frequencies_reversed();
+	if (reverse_scale) return center_freq-canvas_get_freq_offset(relativeX);
 	return center_freq+canvas_get_freq_offset(relativeX);
 }
 
