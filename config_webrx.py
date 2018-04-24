@@ -49,7 +49,7 @@ receiver_device="RTL-SDR"
 receiver_admin="ag7ew@baitis.net"
 receiver_gps=(45.4990317,-122.693)
 photo_height=350
-photo_title="146.52 MHz = 45.05 MHz (default), reload to reset"
+photo_title="It's a webSDR!"
 photo_desc="""
 Frequencies are reversed on this bandscope:  44.05 MHz = 147.52 MHz, and 46.05 MHz = 145.52 MHz. <br />
 More details are available on <a href="http://www.qrz.com/lookup?mode=callsign&tquery=ag7ew">my QRZ page</a><br />.
@@ -72,12 +72,17 @@ fft_fps=5
 fft_size=4096 #Should be power of 2
 fft_voverlap_factor=0.3 #If fft_voverlap_factor is above 0, multiple FFTs will be used for creating a line on the diagram.
 
-# samp_rate = 250000
-radio_vfo_freq = 146520000
 samp_rate = 2880000
-center_freq = 45050000
+
+# I like to think in terms of my lowest frequency that I want to see
+lowest_freq    = 144100000
+
+radio_if_freq  =  45050000
+radio_vfo_freq = 146520000
+center_freq    = radio_vfo_freq - (lowest_freq + samp_rate / 2)  + radio_if_freq
+
 # Offset 
-shown_center_freq = radio_vfo_freq
+shown_center_freq =  radio_vfo_freq - (center_freq - radio_if_freq)
 rf_gain = 33 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
 ppm = 59
 
