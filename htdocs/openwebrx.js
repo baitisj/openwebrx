@@ -910,10 +910,8 @@ function actual_frequencies_reversed()
 
 function canvas_get_frequency(relativeX)
 {
-	// Reverses the scale if true
-	reverse_scale=actual_frequencies_reversed();
-	if (reverse_scale) return center_freq-canvas_get_freq_offset(relativeX);
-	return center_freq+canvas_get_freq_offset(relativeX);
+	offset = canvas_get_freq_offset(relativeX);
+	return center_freq + (actual_frequencies_reversed() ? -offset : offset);
 }
 
 /*function canvas_format_frequency(relativeX)
