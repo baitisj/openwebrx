@@ -36,26 +36,27 @@ config_webrx: configuration options for OpenWebRX
 
 # ==== Server settings ====
 web_port=8073
-server_hostname="localhost" # If this contains an incorrect value, the web UI may freeze on load (it can't open websocket)
+server_hostname="baitisj.baitis.net" # If this contains an incorrect value, the web UI may freeze on load (it can't open websocket)
 max_clients=20
 
 # ==== Web GUI configuration ====
-receiver_name="[Callsign]"
-receiver_location="Budapest, Hungary"
-receiver_qra="JN97ML"
+receiver_name="AG7EW"
+receiver_location="Portland OR 97239"
+receiver_qra="CN85pl"
 receiver_asl=200
-receiver_ant="Longwire"
+receiver_ant="IF tap from Wouxun KG-UV980H"
 receiver_device="RTL-SDR"
-receiver_admin="example@example.com"
-receiver_gps=(47.000000,19.000000)
+receiver_admin="ag7ew@baitis.net"
+receiver_gps=(45.4990317,-122.693)
 photo_height=350
-photo_title="Panorama of Budapest from Schönherz Zoltán Dormitory"
+photo_title="146.52 MHz = 45.05 MHz (default), reload to reset"
 photo_desc="""
-You can add your own background photo and receiver information.<br />
+Frequencies are reversed on this bandscope:  44.05 MHz = 147.52 MHz, and 46.05 MHz = 145.52 MHz. <br />
+More details are available on <a href="http://www.qrz.com/lookup?mode=callsign&tquery=ag7ew">my QRZ page</a><br />.
 Receiver is operated by: <a href="mailto:%[RX_ADMIN]">%[RX_ADMIN]</a><br/>
 Device: %[RX_DEVICE]<br />
 Antenna: %[RX_ANT]<br />
-Website: <a href="http://localhost" target="_blank">http://localhost</a>
+Website: <a href="http://baitisj.blogspot.com" target="_blank">http://baitisj.blogspot.com</a>
 """
 
 # ==== sdr.hu listing ====
@@ -67,15 +68,18 @@ sdrhu_key = ""
 sdrhu_public_listing = False
 
 # ==== DSP/RX settings ====
-fft_fps=9
+fft_fps=5
 fft_size=4096 #Should be power of 2
 fft_voverlap_factor=0.3 #If fft_voverlap_factor is above 0, multiple FFTs will be used for creating a line on the diagram.
 
 # samp_rate = 250000
-samp_rate = 2400000
-center_freq = 144250000
-rf_gain = 5 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
-ppm = 0
+radio_vfo_freq = 146520000
+samp_rate = 2880000
+center_freq = 45050000
+# Offset 
+shown_center_freq = radio_vfo_freq
+rf_gain = 33 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
+ppm = 59
 
 audio_compression="adpcm" #valid values: "adpcm", "none"
 fft_compression="adpcm" #valid values: "adpcm", "none"
@@ -104,7 +108,8 @@ Note: if you experience audio underruns while CPU usage is 100%, you can:
 # You can use other SDR hardware as well, by giving your own command that outputs the I/Q samples... Some examples of configuration are available here (default is RTL-SDR):
 
 # >> RTL-SDR via rtl_sdr
-start_rtl_command="rtl_sdr -s {samp_rate} -f {center_freq} -p {ppm} -g {rf_gain} -".format(rf_gain=rf_gain, center_freq=center_freq, samp_rate=samp_rate, ppm=ppm)
+#start_rtl_command="rtl_sdr -s {samp_rate} -f {center_freq} -p {ppm} -g {rf_gain} -".format(rf_gain=rf_gain, center_freq=center_freq, samp_rate=samp_rate, ppm=ppm)
+start_rtl_command="sh /home/baitisj/ham/openwebrx/start.sh {samp_rate} {center_freq} {ppm} {rf_gain}".format(rf_gain=rf_gain, center_freq=center_freq, samp_rate=samp_rate, ppm=ppm)
 format_conversion="csdr convert_u8_f"
 
 #lna_gain=8
@@ -176,8 +181,8 @@ iq_server_port = 4951 #TCP port for ncat to listen on. It will send I/Q data ove
 
 ### default theme by teejez:
 waterfall_colors = "[0x000000ff,0x0000ffff,0x00ffffff,0x00ff00ff,0xffff00ff,0xff0000ff,0xff00ffff,0xffffffff]"
-waterfall_min_level = -88 #in dB
-waterfall_max_level = -20
+waterfall_min_level = -80 #in dB
+waterfall_max_level = -15
 waterfall_auto_level_margin = (5, 40)
 ### old theme by HA7ILM:
 #waterfall_colors = "[0x000000ff,0x2e6893ff, 0x69a5d0ff, 0x214b69ff, 0x9dc4e0ff,  0xfff775ff, 0xff8a8aff, 0xb20000ff]"
@@ -205,7 +210,7 @@ csdr_dynamic_bufsize = False # This allows you to change the buffering mode of c
 csdr_print_bufsizes = False  # This prints the buffer sizes used for csdr processes.
 csdr_through = False # Setting this True will print out how much data is going into the DSP chains.
 
-nmux_memory = 50 #in megabytes. This sets the approximate size of the circular buffer used by nmux.
+nmux_memory = 200 #in megabytes. This sets the approximate size of the circular buffer used by nmux.
 
 #Look up external IP address automatically from icanhazip.com, and use it as [server_hostname]
 """
