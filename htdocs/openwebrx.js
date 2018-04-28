@@ -544,7 +544,8 @@ function demodulator_default_analog(offset_frequency,subtype)
 		mkenvelopes(this.visible_range);
 		this.parent.set();
 		//will have to change this when changing to multi-demodulator mode:
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",center_freq+this.parent.offset_frequency,1e6,4);
+		f0 = center_freq + this.parent.offset_frequency;
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz", actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,4);
 		return true;
 	};
 
@@ -1660,7 +1661,8 @@ function audio_init()
 	if(starting_offset_frequency)
 	{
 		demodulators[0].offset_frequency = starting_offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",center_freq+starting_offset_frequency,1e6,4);
+		f0 = center_freq + starting_offset_frequency;
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,4);
 		demodulators[0].set();
 		mkscale();
 	}
