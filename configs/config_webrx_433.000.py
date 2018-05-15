@@ -75,7 +75,7 @@ samp_rate = 2880000
 
 # NOTE: 440 MHz band is NOT reversed, edit htdocs/openwebrx.js
 # I like to think in terms of my lowest frequency that I want to see
-lowest_freq    = 445000000
+lowest_freq    = 431500000
 
 radio_if_freq  =  45050000
 radio_vfo_freq = 432100000
@@ -84,7 +84,7 @@ center_freq    = radio_if_freq - (radio_vfo_freq - (lowest_freq + samp_rate / 2)
 
 # Offset 
 shown_center_freq =  lowest_freq + samp_rate / 2
-rf_gain = 33 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
+rf_gain = 44 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
 ppm = 56
 
 audio_compression="adpcm" #valid values: "adpcm", "none"
