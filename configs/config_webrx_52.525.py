@@ -40,7 +40,7 @@ server_hostname="baitisj.baitis.net" # If this contains an incorrect value, the 
 max_clients=20
 
 # ==== Web GUI configuration ====
-receiver_name="AG7EW - Click on the arrow below for more information"
+receiver_name="AG7EW"
 receiver_location="Portland OR 97239"
 receiver_qra="CN85pl"
 receiver_asl=200
@@ -51,6 +51,7 @@ receiver_gps=(45.4990317,-122.693)
 photo_height=350
 photo_title="It's a webSDR!"
 photo_desc="""
+Frequencies are reversed on this bandscope:  44.05 MHz = 147.52 MHz, and 46.05 MHz = 145.52 MHz. <br />
 More details are available on <a href="http://www.qrz.com/lookup?mode=callsign&tquery=ag7ew">my QRZ page</a><br />.
 Receiver is operated by: <a href="mailto:%[RX_ADMIN]">%[RX_ADMIN]</a><br/>
 Device: %[RX_DEVICE]<br />
@@ -77,13 +78,13 @@ samp_rate = 2880000
 lowest_freq    =  50000000
 
 radio_if_freq  =  45050000
-radio_vfo_freq =  51000000
-center_freq    = radio_if_freq - (radio_vfo_freq - (lowest_freq + samp_rate / 2) ) 
+radio_vfo_freq =  52525000
+center_freq    = radio_vfo_freq - (lowest_freq + samp_rate / 2)  + radio_if_freq
 
 # Offset 
-shown_center_freq =  lowest_freq + samp_rate / 2
-rf_gain = 36 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
-ppm = 56
+shown_center_freq =  radio_vfo_freq - (center_freq - radio_if_freq)
+rf_gain = 44 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
+ppm = 46
 
 audio_compression="adpcm" #valid values: "adpcm", "none"
 fft_compression="adpcm" #valid values: "adpcm", "none"
@@ -187,7 +188,7 @@ iq_server_port = 4951 #TCP port for ncat to listen on. It will send I/Q data ove
 
 ### default theme by teejez:
 waterfall_colors = "[0x000000ff,0x0000ffff,0x00ffffff,0x00ff00ff,0xffff00ff,0xff0000ff,0xff00ffff,0xffffffff]"
-waterfall_min_level = -78 #in dB
+waterfall_min_level = -80 #in dB
 waterfall_max_level = -15
 waterfall_auto_level_margin = (5, 40)
 ### old theme by HA7ILM:
