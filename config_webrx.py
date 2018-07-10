@@ -40,7 +40,7 @@ server_hostname="baitisj.baitis.net" # If this contains an incorrect value, the 
 max_clients=20
 
 # ==== Web GUI configuration ====
-receiver_name="AG7EW"
+receiver_name="AG7EW - Click on the arrow below for more information"
 receiver_location="Portland OR 97239"
 receiver_qra="CN85pl"
 receiver_asl=200
@@ -51,7 +51,6 @@ receiver_gps=(45.4990317,-122.693)
 photo_height=350
 photo_title="It's a webSDR!"
 photo_desc="""
-Frequencies are reversed on this bandscope:  44.05 MHz = 147.52 MHz, and 46.05 MHz = 145.52 MHz. <br />
 More details are available on <a href="http://www.qrz.com/lookup?mode=callsign&tquery=ag7ew">my QRZ page</a><br />.
 Receiver is operated by: <a href="mailto:%[RX_ADMIN]">%[RX_ADMIN]</a><br/>
 Device: %[RX_DEVICE]<br />
@@ -83,7 +82,7 @@ center_freq    = radio_vfo_freq - (lowest_freq + samp_rate / 2)  + radio_if_freq
 
 # Offset 
 shown_center_freq =  radio_vfo_freq - (center_freq - radio_if_freq)
-rf_gain = 33 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
+rf_gain = 25 #in dB. For an RTL-SDR, rf_gain=0 will set the tuner to auto gain mode, else it will be in manual gain mode.
 ppm = 56
 
 audio_compression="adpcm" #valid values: "adpcm", "none"
@@ -169,7 +168,7 @@ To use a HackRF, compile the HackRF host tools from its "stdout" branch:
 #shown_center_freq = center_freq #you can change this if you use an upconverter
 
 #client_audio_buffer_size = 5
-client_audio_buffer_size = 10
+client_audio_buffer_size = 12
 #increasing client_audio_buffer_size will:
 # - also increase the latency
 # - decrease the chance of audio underruns
