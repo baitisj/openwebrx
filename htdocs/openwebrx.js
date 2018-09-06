@@ -428,8 +428,8 @@ function demodulator_default_analog(offset_frequency,subtype)
 	}
 	else if(subtype=="nfm")
 	{
-		this.low_cut=-4000;
-		this.high_cut=4000;
+		this.low_cut=-6250;
+		this.high_cut=6250;
 	}
 	else if(subtype=="am")
 	{
