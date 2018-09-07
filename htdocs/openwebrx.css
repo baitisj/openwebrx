@@ -284,7 +284,7 @@ input[type=range]:focus::-ms-fill-upper
 	top: 78px;
 	color: White;
 	font-size: 16pt;
-	text-shadow: 1px 1px 4px #444;
+	text-shadow: 1px 1px 4px #111;
 	opacity: 1;
 }
 
@@ -296,7 +296,7 @@ input[type=range]:focus::-ms-fill-upper
 	color: White;
 	font-size: 10pt;
 	font-weight: bold;
-	text-shadow: 0px 0px 6px #444;
+	text-shadow: 0px 0px 3px #111;
 	opacity: 1;
 	line-height: 1.5em;
 }
@@ -315,10 +315,11 @@ input[type=range]:focus::-ms-fill-upper
 	overflow: hidden;
 	cursor:pointer;
 	position: absolute;
+	text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
 	left: 350px;
 	top: 13px;
 	font-family: "DejaVu Sans", Verdana, Geneva, sans-serif;
-	color: #909090;
+	color: #ff2020;
 	font-size: 11pt;
 	font-weight: bold;
 }
@@ -326,10 +327,11 @@ input[type=range]:focus::-ms-fill-upper
 #webrx-rx-desc
 {
 	white-space:nowrap;
+	text-shadow:0px 0px 2px #000000;
 	overflow: hidden;
 	cursor:pointer;
 	font-size: 10pt;
-	color: #909090;
+	color: #cc4040;
 	position: absolute;
 	left: 350px;
 	top: 34px;
@@ -337,7 +339,7 @@ input[type=range]:focus::-ms-fill-upper
 
 #webrx-rx-desc a
 {
-	color: #909090;
+	color: #9c4040;
 	/*text-decoration: none;*/
 }
 
@@ -353,10 +355,12 @@ input[type=range]:focus::-ms-fill-upper
 {
 	margin: 0;
 	padding: 0;
+	background-color: #000000;
 }
 
 #openwebrx-rx-details-arrow-down
 {
+	background-color: #000000;
 	display:none;
 }
 
@@ -648,7 +652,7 @@ img.openwebrx-mirror-img
 	text-align: center;
 	font-size: 8pt;
 	font-weight: bold;
-	text-shadow: 0px 0px 4px #000000;
+	text-shadow: 0px 0px 2px #000000;
 	cursor: default;
 	user-select: none;
     -webkit-touch-callout: none;
@@ -723,7 +727,7 @@ img.openwebrx-mirror-img
 	top: 3px;
 	margin:0;
 	color: white;
-	text-shadow: 0px 0px 4px #000000;
+	text-shadow: 0px 0px 2px #000000;
 	text-align: center;
 	font-size: 9pt;
 	font-weight: bold;
