@@ -43,6 +43,7 @@ var audio_buffer_current_size_debug=0;
 var audio_buffer_all_size_debug=0;
 var audio_buffer_current_count_debug=0;
 var audio_buffer_current_size=0;
+var actual_frequencies_reversed=0;
 var fft_size;
 var fft_fps;
 var fft_compression="none";
@@ -546,7 +547,7 @@ function demodulator_default_analog(offset_frequency,subtype)
 		this.parent.set();
 		//will have to change this when changing to multi-demodulator mode:
 		f0 = center_freq + this.parent.offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz", actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,5);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz", actual_frequencies_reversed ? center_freq-(f0-center_freq) : f,1e6,5);
 		return true;
 	};
 
@@ -818,7 +819,7 @@ function mkscale()
 	marker_hz=Math.ceil(range.start/spacing.smallbw)*spacing.smallbw;
 	text_h_pos=22+10+((is_firefox)?3:0);
 	var text_to_draw;
-	var ftext=function(f) {text_to_draw=format_frequency(spacing.params.format,actual_frequencies_reversed() ? center_freq-(f-center_freq) : f,spacing.params.pre_divide,spacing.params.decimals);}
+	var ftext=function(f) {text_to_draw=format_frequency(spacing.params.format,actual_frequencies_reversed ? center_freq-(f-center_freq) : f,spacing.params.pre_divide,spacing.params.decimals);}
 	var last_large;
 	for(;;)
 	{
@@ -905,15 +906,10 @@ function canvas_get_freq_offset(relativeX)
 	return Math.round((bandwidth*rel)-(bandwidth/2));
 }
 
-function actual_frequencies_reversed()
-{
-	return true;
-}
-
 function canvas_get_frequency(relativeX)
 {
 	offset = canvas_get_freq_offset(relativeX);
-	return center_freq + (actual_frequencies_reversed() ? -offset : offset);
+	return center_freq + (actual_frequencies_reversed ? -offset : offset);
 }
 
 /*function canvas_format_frequency(relativeX)
@@ -1256,6 +1252,9 @@ function on_ws_recv(evt)
 					case "s":
 						smeter_level=parseFloat(param[1]);
 						setSmeterAbsoluteValue(smeter_level);
+						break;
+					case "actual_frequencies_reversed":
+						actual_frequencies_reversed=parseInt(param[1]);
 						break;
 				}
 			}
@@ -1664,7 +1663,7 @@ function audio_init()
 	{
 		demodulators[0].offset_frequency = starting_offset_frequency;
 		f0 = center_freq + starting_offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,5);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(f0-center_freq) : f,1e6,5);
 		demodulators[0].set();
 		mkscale();
 	}

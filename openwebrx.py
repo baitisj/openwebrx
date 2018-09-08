@@ -457,7 +457,7 @@ class WebRXHandler(BaseHTTPRequestHandler):
                         return
                     myclient.ws_started=True
                     #send default parameters
-                    rxws.send(self, "MSG center_freq={0} bandwidth={1} fft_size={2} fft_fps={3} audio_compression={4} fft_compression={5} max_clients={6} setup".format(str(cfg.shown_center_freq),str(cfg.samp_rate),cfg.fft_size,cfg.fft_fps,cfg.audio_compression,cfg.fft_compression,cfg.max_clients))
+                    rxws.send(self, "MSG center_freq={0} bandwidth={1} fft_size={2} fft_fps={3} audio_compression={4} fft_compression={5} max_clients={6} actual_frequencies_reversed={7} setup".format(str(cfg.shown_center_freq),str(cfg.samp_rate),cfg.fft_size,cfg.fft_fps,cfg.audio_compression,cfg.fft_compression,cfg.max_clients,cfg.actual_frequencies_reversed))
 
                     # ========= Initialize DSP =========
                     dsp=csdr.dsp()
@@ -638,7 +638,7 @@ class WebRXHandler(BaseHTTPRequestHandler):
             elif self.path in ("/status", "/status/"):
                 #self.send_header('Content-type','text/plain')
                 getbands=lambda: str(int(cfg.shown_center_freq-cfg.samp_rate/2))+"-"+str(int(cfg.shown_center_freq+cfg.samp_rate/2))
-                self.wfile.write("status="+("inactive" if receiver_failed else "active")+"\nname="+cfg.receiver_name+"\nsdr_hw="+cfg.receiver_device+"\nop_email="+cfg.receiver_admin+"\nbands="+getbands()+"\nusers="+str(len(clients))+"\nusers_max="+str(cfg.max_clients)+"\navatar_ctime="+avatar_ctime+"\ngps="+str(cfg.receiver_gps)+"\nasl="+str(cfg.receiver_asl)+"\nloc="+cfg.receiver_location+"\nsw_version="+sw_version+"\nantenna="+cfg.receiver_ant+"\n")
+                self.wfile.write("status="+("inactive" if receiver_failed else "active")+"\nname="+cfg.receiver_name+"\nsdr_hw="+cfg.receiver_device+"\nop_email="+cfg.receiver_admin+"\nbands="+getbands()+"\nusers="+str(len(clients))+"\nusers_max="+str(cfg.max_clients)+"\navatar_ctime="+avatar_ctime+"\ngps="+str(cfg.receiver_gps)+"\nasl="+str(cfg.receiver_asl)+"\nloc="+cfg.receiver_location+"\nsw_version="+sw_version+"\nantenna="+cfg.receiver_ant+"\nactual_frequencies_reversed="+cfg.actual_frequencies_reversed+"\n")
                 print "[openwebrx-httpd] GET /status/ from",self.client_address[0]
             else:
                 f=open(rootdir+self.path)
