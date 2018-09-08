@@ -546,7 +546,7 @@ function demodulator_default_analog(offset_frequency,subtype)
 		this.parent.set();
 		//will have to change this when changing to multi-demodulator mode:
 		f0 = center_freq + this.parent.offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz", actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,4);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz", actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,5);
 		return true;
 	};
 
@@ -623,7 +623,7 @@ var scale_canvas;
 
 function scale_setup()
 {
-	e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",canvas_get_frequency(window.innerWidth/2),1e6,4);
+	e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",canvas_get_frequency(window.innerWidth/2),1e6,5);
 	scale_canvas=e("openwebrx-scale-canvas");
 	scale_ctx=scale_canvas.getContext("2d");
 	scale_canvas.addEventListener("mousedown", scale_canvas_mousedown, false);
@@ -1001,7 +1001,7 @@ function canvas_mouseup(evt)
 	{
 		//ws.send("SET offset_freq="+canvas_get_freq_offset(relativeX).toString());
 		demodulator_set_offset_frequency(0, canvas_get_freq_offset(relativeX));
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",canvas_get_frequency(relativeX),1e6,4);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",canvas_get_frequency(relativeX),1e6,5);
 	}
 	else
 	{
@@ -1664,7 +1664,7 @@ function audio_init()
 	{
 		demodulators[0].offset_frequency = starting_offset_frequency;
 		f0 = center_freq + starting_offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,4);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed() ? center_freq-(f0-center_freq) : f,1e6,5);
 		demodulators[0].set();
 		mkscale();
 	}
