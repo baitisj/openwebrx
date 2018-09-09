@@ -2397,6 +2397,12 @@ function place_panels(function_apply)
         y+=p.openwebrxPanelHeight+((p.openwebrxPanelTransparent)?0:3)*panel_margin;
 		if(function_apply) function_apply(p);
 	}
+	// Update buttons if we have reversed the frequencies
+	if(actual_frequencies_reversed)
+	{
+		e("openwebrx-button-usb").innerHTML="LSB";
+		e("openwebrx-button-lsb").innerHTML="USB";
+	}
 }
 
 function progressbar_set(obj,val,text,over)
