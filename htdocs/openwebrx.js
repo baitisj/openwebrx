@@ -190,7 +190,6 @@ function freqstep(sel){
 }
 
 function updateShareLink(freq){
-	console.log("UpdateSareLink "  + freq);
 	var sqlSliderValue=parseInt(e("openwebrx-panel-squelch").value);
 	e("id-freq-link").innerHTML='<a href="'+base_url+'/#freq='+freq+',mod='+last_analog_demodulator_subtype+',sql='+sqlSliderValue+'" target="_blank" title="Share Settings"><img src="icons/link.png"></a>';
 
@@ -593,8 +592,8 @@ function demodulator_default_analog(offset_frequency,subtype)
 		mkenvelopes(this.visible_range);
 		this.parent.set();
 		//will have to change this when changing to multi-demodulator mode:
-		act_freq=center_freq+this.parent.offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz", actual_frequencies_reversed ? center_freq-(act_freq-center_freq) : act_freq,1e6,5);
+		act_freq=center_freq+ (actual_frequencies_reversed ? -1:1)*this.parent.offset_frequency;
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",act_freq,1e6,5);
 		updateShareLink(act_freq);
 		return true;
 	};
@@ -1759,8 +1758,8 @@ function audio_init()
 	if(starting_offset_frequency)
 	{
 		demodulators[0].offset_frequency = starting_offset_frequency;
-		act_freq=center_freq+starting_offset_frequency;
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(act_freq-center_freq) : act_freq,1e6,5);
+		act_freq=center_freq+ (actual_frequencies_reversed ? -1:1)*starting_offset_frequency ;
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",act_freq,1e6,5);
 		updateShareLink(act_freq);
 		demodulators[0].set();
 		mkscale();
@@ -1776,7 +1775,6 @@ function audio_init()
 			//window.setTimeout(function(){toggle_panel("openwebrx-panel-log");e("openwebrx-panel-log").style.opacity="1";},1200)
 		}
 	},2000);
-
 }
 
 function on_ws_closed()
