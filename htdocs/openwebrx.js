@@ -201,7 +201,7 @@ function zoomOutOneStep () { zoom_set(zoom_level-1); }
 function zoomInTotal ()    { zoom_set(zoom_levels.length-1); }
 function zoomOutTotal ()   { zoom_set(0); }
 function setSquelchDefault() { e("openwebrx-panel-squelch").value=0; }
-function setSquelchToAuto() { e("openwebrx-panel-squelch").value=(getLogSmeterValue(smeter_level)+10).toString(); updateSquelch(); }
+function setSquelchToAuto() { e("openwebrx-panel-squelch").value=(getLogSmeterValue(smeter_level)+5).toString(); updateSquelch(); }
 function updateSquelch()
 {
 	var sliderValue=parseInt(e("openwebrx-panel-squelch").value);
@@ -688,27 +688,31 @@ var scale_canvas_scroll_params={
 	key_modifiers: {shiftKey:false, altKey: false, ctrlKey: false}
 };
 
+function slider_mousewheel(evt, id, lambda_update)
+{
+	var dir=(evt.deltaY/Math.abs(evt.deltaY))>0;
+	var stepSize = (dir ? -1 : 1);
+	stepSize = stepSize * (evt.shiftKey ? 5:1); // Increase scroll if shift is pressed.
+	var sliderVal=parseInt(e(id).value);
+	e(id).value=(sliderVal+stepSize);
+	lambda_update();
+}
+function addSliderListeners()
+{
+	e("openwebrx-panel-volume").addEventListener("wheel",function(evt){slider_mousewheel(evt,"openwebrx-panel-volume",updateVolume);});
+	e("openwebrx-panel-squelch").addEventListener("wheel",function(evt){slider_mousewheel(evt,"openwebrx-panel-squelch",updateSquelch);});
+	e("openwebrx-waterfall-color-min").addEventListener("wheel",function(evt){slider_mousewheel(evt,"openwebrx-waterfall-color-min",function(){updateWaterfallColors(0);});});
+	e("openwebrx-waterfall-color-max").addEventListener("wheel",function(evt){slider_mousewheel(evt,"openwebrx-waterfall-color-max",function(){updateWaterfallColors(1);});});
+}
 
 function scale_canvas_mousewheel(evt)
 {
-	var dir=(evt.deltaY/Math.abs(evt.deltaY))>0;
-	if (dir){ // scroll down on scale
-
-		if (evt.shiftKey){ // shift pressed
-			stepsize = -5000;
-		} else {
-			stepsize = -100; 
-		}
-	} else { // scroll up on scale
-		if (evt.shiftKey){ // shift pressed
-			stepsize = 5000;
-		} else {
-			stepsize = 100; 
-		}
-	}
-	new_offset = stepsize + actual_frequencies_reversed ? center_freq - parseInt(act_freq) : parseInt(act_freq) - center_freq;
+	var dir=(evt.deltaY/Math.abs(evt.deltaY))>0; // if dir == true -> scroll down.
+	var stepSize = (dir ? -100 : 100);
+	stepSize = stepSize * (evt.shiftKey ? 50:1); // Increase scroll if shift is pressed.
+	new_offset = stepSize + actual_frequencies_reversed ? center_freq - parseInt(act_freq) : parseInt(act_freq) - center_freq;
 	if (Math.abs(new_offset) < bandwidth/2) { // don't tune out of range
-		new_qrg = act_freq + stepsize
+		new_qrg = act_freq + stepSize
 		demodulator_set_offset_frequency(0, new_offset);
 		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",new_qrg,1e6,5);
 		updateShareLink(new_qrg);
@@ -1939,6 +1943,7 @@ function waterfall_init()
 	resize_waterfall_container(false); /* then */ resize_canvases();
 	scale_setup();
 	mkzoomlevels();
+	addSliderListeners();
 	waterfall_setup_done=1;
 }
 
