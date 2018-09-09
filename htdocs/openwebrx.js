@@ -18,7 +18,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 """
-
 */
 var base_url = window.location.origin;
 //console.log(base_url);
@@ -182,11 +181,10 @@ function freqstep(sel){
         stepsize = 0;
 	} 
 	
-	offset_frequency = parseInt(act_freq)-center_freq;
-	new_offset= offset_frequency + stepsize;
+	new_offset = stepsize + actual_frequencies_reversed ? center_freq - parseInt(act_freq) : parseInt(act_freq) - center_freq;
 	new_qrg = act_freq + stepsize;
 	demodulator_set_offset_frequency(0, new_offset);
-	e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(new_qrg-center_freq) : new_qrg,1e6,5);
+	e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",new_qrg,1e6,5);
 	updateShareLink(new_qrg);
 	act_freq = new_qrg;
 }
@@ -694,9 +692,6 @@ var scale_canvas_scroll_params={
 
 function scale_canvas_mousewheel(evt)
 {
-	//if(!waterfall_setup_done) return;
-	
-	var relativeX=(evt.offsetX)?evt.offsetX:evt.layerX;
 	var dir=(evt.deltaY/Math.abs(evt.deltaY))>0;
 	if (dir){ // scroll down on scale
 
@@ -712,15 +707,11 @@ function scale_canvas_mousewheel(evt)
 			stepsize = 100; 
 		}
 	}
-	//console.log(act_freq);
-	offset_frequency = parseInt(act_freq)-center_freq;
-	new_offset= offset_frequency + stepsize;
-	//console.log(new_offset);
-	if (Math.abs(new_offset) < bandwidth/2){ // don't tune out of range
-		
+	new_offset = stepsize + actual_frequencies_reversed ? center_freq - parseInt(act_freq) : parseInt(act_freq) - center_freq;
+	if (Math.abs(new_offset) < bandwidth/2) { // don't tune out of range
 		new_qrg = act_freq + stepsize
 		demodulator_set_offset_frequency(0, new_offset);
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(new_qrg-center_freq) : new_qrg,1e6,5);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",new_qrg,1e6,5);
 		updateShareLink(new_qrg);
 		act_freq = new_qrg;
 	}
@@ -1770,7 +1761,7 @@ function audio_init()
 	if(starting_offset_frequency)
 	{
 		demodulators[0].offset_frequency = starting_offset_frequency;
-		act_freq=center_freq+starting_offset_frequency;
+		act_freq=center_freq+(actual_frequencies_reversed?-1:1)*starting_offset_frequency;
 		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(act_freq-center_freq) : act_freq,1e6,5);
 		updateShareLink(act_freq);
 		demodulators[0].set();
@@ -2909,3 +2900,4 @@ function secondary_demod_waterfall_set_zoom(low_cut, high_cut)
     secondary_demod_canvases.map((x)=>{$(x).css("left",secondary_demod_canvas_left+"px").css("width",secondary_demod_canvas_width+"px");});
     secondary_demod_update_channel_freq_from_event();
 }
+// vim: sw=4:ts=4:noet:
