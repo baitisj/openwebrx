@@ -1674,7 +1674,6 @@ function parsehash()
 	{
 		h.substring(1).split(",").forEach(function(x){
 			harr=x.split("=");
-			//console.log(harr);
 			if(harr[0]=="mute") toggleMute();
 			else if(harr[0]=="mod") starting_mod = harr[1];
 			else if(harr[0]=="sql") 
@@ -1684,9 +1683,8 @@ function parsehash()
 			}
 			else if(harr[0]=="freq") 
 			{
-				//console.log(parseInt(harr[1]));
-				//console.log(center_freq);
-				starting_offset_frequency = parseInt(harr[1])-center_freq;
+				vfo = parseInt(harr[1]);
+				starting_offset_frequency = actual_frequencies_reversed? center_freq - vfo  : vfo - center_freq;
 			}
 			
 		});
@@ -1761,7 +1759,7 @@ function audio_init()
 	if(starting_offset_frequency)
 	{
 		demodulators[0].offset_frequency = starting_offset_frequency;
-		act_freq=center_freq+(actual_frequencies_reversed?-1:1)*starting_offset_frequency;
+		act_freq=center_freq+starting_offset_frequency;
 		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(act_freq-center_freq) : act_freq,1e6,5);
 		updateShareLink(act_freq);
 		demodulators[0].set();
