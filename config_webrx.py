@@ -74,11 +74,13 @@ fft_voverlap_factor=0.1 #If fft_voverlap_factor is above 0, multiple FFTs will b
 samp_rate = 2880000
 
 # I like to think in terms of my lowest frequency that I want to see
-lowest_freq    = 144100000
+#lowest_freq    = 144050000
+lowest_freq    = 144050000
 
 radio_if_freq  =  45050000
 radio_vfo_freq = 146520000
 center_freq    = radio_vfo_freq - (lowest_freq + samp_rate / 2)  + radio_if_freq
+actual_frequencies_reversed = 1
 
 # Offset 
 shown_center_freq =  radio_vfo_freq - (center_freq - radio_if_freq)
