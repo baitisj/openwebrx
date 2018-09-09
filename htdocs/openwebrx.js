@@ -780,7 +780,7 @@ function scale_canvas_end_drag(x)
 	if (!event_handled) {
 		demodulator_set_offset_frequency(0,scale_offset_freq_from_px(x));
 		new_qrg = parseInt(center_freq + (actual_frequencies_reversed ? -1 : 1) * scale_offset_freq_from_px(x));
-		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",actual_frequencies_reversed ? center_freq-(new_qrg-center_freq) : new_qrg,1e6,5);
+		e("webrx-actual-freq").innerHTML=format_frequency("{x} MHz",new_qrg,1e6,5);
 		updateShareLink(new_qrg);
 		act_freq = new_qrg;
 	}
