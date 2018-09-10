@@ -327,7 +327,7 @@ def spectrum_thread_function():
                     print "[openwebrx-spectrum] client spectrum queue full, closing it."
                     close_client(i, False)
                     correction+=1
-                else:
+                elif clients[i].send_wf:
                     clients[i].spectrum_queue.put([data]) # add new string by "reference" to all clients
         cmr()
 
@@ -366,10 +366,11 @@ def cleanup_clients(end_all=False):
 def generate_client_id(ip):
     #add a client
     global clients
-    new_client=namedtuple("ClientStruct", "id gen_time ws_started sprectum_queue ip closed bcastmsg dsp loopstat")
+    new_client=namedtuple("ClientStruct", "id gen_time ws_started sprectum_queue ip closed bcastmsg dsp loopstat send_wf")
     new_client.id=md5.md5(str(random.random())).hexdigest()
     new_client.gen_time=time.time()
     new_client.ws_started=False # to check whether client has ever tried to open the websocket
+    new_client.send_wf=True
     new_client.spectrum_queue=Queue.Queue(1000)
     new_client.ip=ip
     new_client.bcastmsg=""
@@ -488,7 +489,7 @@ class WebRXHandler(BaseHTTPRequestHandler):
                             rxws.send(self, temp_audio_data, "AUD ")
 
                         # ========= send spectrum =========
-                        while not myclient.spectrum_queue.empty():
+                        while myclient.send_wf and not myclient.spectrum_queue.empty():
                             myclient.loopstat=20
                             spectrum_data=myclient.spectrum_queue.get()
                             #spectrum_data_mid=len(spectrum_data[0])/2
@@ -570,6 +571,8 @@ class WebRXHandler(BaseHTTPRequestHandler):
                                             if dsp_initialized: dsp.stop()
                                             dsp.set_demodulator(param_value)
                                             if dsp_initialized: dsp.start()
+                                    elif param_name == "toggle_waterfall":
+                                        myclient.send_wf = not myclient.send_wf
                                     elif param_name == "output_rate":
                                         if not dsp_initialized:
                                             myclient.loopstat=540

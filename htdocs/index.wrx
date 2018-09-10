@@ -99,6 +99,8 @@
                         <img id="id-step-3" src="icons/stepup.16.png" onclick="freqstep(3)" style="padding-bottom:2px" title="+10">
                         <img id="id-step-4" src="icons/stepup.18.png" onclick="freqstep(4)" style="padding-bottom:1px" title="+100">
                         <img id="id-step-5" src="icons/stepup.20.png" onclick="freqstep(5)" title="+5k">
+                        <div class="openwebrx-button openwebrx-demodulator-button highlighted" id="openwebrx-button-spectrum" 
+                            onclick="toggle_waterfall();">WF</div>
                     </div>
                     
                     <div class="openwebrx-panel-line">

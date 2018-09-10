@@ -635,6 +635,13 @@ function demodulator_add(what)
 last_analog_demodulator_subtype = 'nfm';
 last_digital_demodulator_subtype = 'bpsk31';
 
+function toggle_waterfall()
+{
+	$("#openwebrx-button-spectrum").toggleClass("highlighted");
+	ws.send("SET toggle_waterfall=1");
+}
+
+
 function demodulator_analog_replace(subtype, for_digital)
 { //this function should only exist until the multi-demodulator capability is added
     if(!(typeof for_digital !== "undefined" && for_digital && secondary_demod)) 
