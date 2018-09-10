@@ -189,10 +189,9 @@ def main():
 
     #Start spectrum thread
     print "[openwebrx-main] Starting spectrum thread."
-    spectrum_thread=threading.Thread(target = spectrum_thread_function, args = ())
-    spectrum_thread.start()
-    #spectrum_watchdog_thread=threading.Thread(target = spectrum_watchdog_thread_function, args = ())
-    #spectrum_watchdog_thread.start()
+    if cfg.enable_waterfall:
+        spectrum_thread=threading.Thread(target = spectrum_thread_function, args = ())
+        spectrum_thread.start()
 
     get_cpu_usage()
     bcastmsg_thread=threading.Thread(target = bcastmsg_thread_function, args = ())
@@ -457,7 +456,7 @@ class WebRXHandler(BaseHTTPRequestHandler):
                         return
                     myclient.ws_started=True
                     #send default parameters
-                    rxws.send(self, "MSG center_freq={0} bandwidth={1} fft_size={2} fft_fps={3} audio_compression={4} fft_compression={5} max_clients={6} actual_frequencies_reversed={7} setup".format(str(cfg.shown_center_freq),str(cfg.samp_rate),cfg.fft_size,cfg.fft_fps,cfg.audio_compression,cfg.fft_compression,cfg.max_clients,cfg.actual_frequencies_reversed))
+                    rxws.send(self, "MSG center_freq={0} bandwidth={1} fft_size={2} fft_fps={3} audio_compression={4} fft_compression={5} max_clients={6} actual_frequencies_reversed={7} fft_enabled={8} setup".format(str(cfg.shown_center_freq),str(cfg.samp_rate),cfg.fft_size,cfg.fft_fps,cfg.audio_compression,cfg.fft_compression,cfg.max_clients,cfg.actual_frequencies_reversed,cfg.enable_waterfall))
 
                     # ========= Initialize DSP =========
                     dsp=csdr.dsp()
