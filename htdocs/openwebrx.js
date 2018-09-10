@@ -2324,7 +2324,7 @@ function init_key_listener(zEvent){
     }
     
     // shift and +
-    if ((zEvent.keyCode == "171" || zEvent.keyCode == "107") && zEvent.shiftKey){
+    if ((zEvent.keyCode == "171" || zEvent.keyCode == "107" || zEvent.keyCode == "61" ) && zEvent.shiftKey){
 		freqstep(4);
     }
     
@@ -2339,7 +2339,7 @@ function init_key_listener(zEvent){
     }
     
     // + and not shift
-    if ((zEvent.keyCode == "171" || zEvent.keyCode == "107") &! zEvent.shiftKey){
+    if ((zEvent.keyCode == "171" || zEvent.keyCode == "107" || zEvent.keyCode == "61" ) &! zEvent.shiftKey){
 		freqstep(3);
     }
     
