@@ -564,7 +564,7 @@ display: inline-block;
 	display: inline-block;
 }
 
-.openwebrx-button:hover, .openwebrx-demodulator-button.highlighted
+.openwebrx-button:hover, .openwebrx-wf-button.highlighted, .openwebrx-demodulator-button.highlighted
 {
 	/*background:-webkit-gradient( linear, left top, left bottom, color-stop(0.0	, #3F3F3F), color-stop(1, #777777) );
 	background:-moz-linear-gradient( center top, #373737 5%, #4F4F4F 100% );*/
@@ -578,7 +578,7 @@ display: inline-block;
 	color: #FFFF50;
 }
 
-.openwebrx-demodulator-button
+.openwebrx-demodulator-button, .openwebrx-wf-button
 {
 	width: 38px;
 	height: 19px;
